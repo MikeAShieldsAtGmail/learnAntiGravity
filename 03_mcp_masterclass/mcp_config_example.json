@@ -1,0 +1,13 @@
+{
+    "mcpServers": {
+        "weather": {
+            "command": "uv",
+            "args": [
+                "run",
+                "--with",
+                "fastmcp",
+                "c:/Users/Dell-PC/learnAntiGravity/03_mcp_masterclass/weather_server.py"
+            ]
+        }
+    }
+}
