@@ -118,11 +118,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const randomAgentIndex = Math.floor(Math.random() * agents.length);
         const statuses = ['Active', 'Thinking', 'Idle', 'Processing', 'Optimizing'];
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
 
-        agents[randomAgentIndex].status = randomStatus;
+        const agent = agents[randomAgentIndex];
+        const oldStatus = agent.status;
+        agent.status = newStatus;
+
         renderAgents();
-    }, 200);
+
+        if (oldStatus !== newStatus) {
+            addLogEntry(`${agent.name} transitioned to ${newStatus}`, 'agent');
+        }
+    }, 2000);
+
+    function addLogEntry(text, type = 'system') {
+        const log = document.getElementById('agentLog');
+        if (!log) return;
+
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        const time = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        entry.textContent = `[${time}] ${text}`;
+        log.appendChild(entry);
+        log.scrollTop = log.scrollHeight;
+
+        // Keep only last 50 entries
+        while (log.children.length > 50) {
+            log.removeChild(log.firstChild);
+        }
+    }
 
     // --- Add New Agent Logic ---
     const addBtn = document.getElementById('addAgentBtn');
